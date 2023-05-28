@@ -22,10 +22,10 @@ public class ScoreBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*if(!gamePlaying)
+        if(!gamePlaying)
         {
             return;
-        }*/
+        }
 
         timeElapsedInSeconds += Time.deltaTime;
         if(timeElapsedInSeconds%20 == 0)
