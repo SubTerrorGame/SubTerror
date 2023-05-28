@@ -22,6 +22,7 @@ public class ScoreBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log(gamePlaying);
         if(!gamePlaying)
         {
             return;
@@ -64,6 +65,11 @@ public class ScoreBehaviour : MonoBehaviour
         gameSpeed = 1;
         numObstaclesJumped = 0;
         numObstaclesSlid = 0;
+    }
+
+    public bool getGamePlaying()
+    {
+        return gamePlaying;
     }
 }
 
