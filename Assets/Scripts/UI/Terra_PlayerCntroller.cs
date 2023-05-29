@@ -6,13 +6,14 @@ public class Terra_PlayerCntroller : MonoBehaviour
 {
     public float jumpTime, jumpHeight, slideTime;
     private float jumpTimeInRad, jumpTimeElapsed;
-   // BoxCollider terraCollider;
+    //BoxCollider terraCollider;
     //Box Collider size in different for different sprints. All are (0,0) offset
    // private Vector2 colliderRunSize, colliderSlideSize, colliderJumpSize;
 
     Animator animator;
     private bool isInAction = false, jumping = false; //Action is state where Terra is jumping or sliding. Anything any situation when Terra should ignore player control
     private Vector3 defaultPosition;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +23,7 @@ public class Terra_PlayerCntroller : MonoBehaviour
        // colliderSlideSize = new Vector3(1.16f, 0.68f, 0.2f);
        // colliderJumpSize = new Vector3(0.57f, 1.04f, 0.2f);
         //get collider and set size
-       // terraCollider = gameObject.GetComponent<BoxCollider>();
+        //terraCollider = gameObject.GetComponent<BoxCollider>();
        // terraCollider.size = colliderRunSize;
         defaultPosition = transform.localPosition;
         jumpTimeInRad = Mathf.PI/jumpTime;
@@ -65,7 +66,6 @@ public class Terra_PlayerCntroller : MonoBehaviour
         jumping = true;
         animator.SetBool("Jump", true);
      //   terraCollider.size = colliderJumpSize;
-
 
         yield return new WaitForSeconds(jumpTime);
 
