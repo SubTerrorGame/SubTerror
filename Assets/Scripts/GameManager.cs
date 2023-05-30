@@ -9,6 +9,10 @@ public class GameManager : MonoBehaviour
     public float gameSpeed {  get; private set; }
     public float initalSpeed = 5f;
     public float step = 0.1f;
+
+    public Animator animatorTerra;
+    private bool gamePlaying;
+
     private void Awake()
     {
         if(instance == null)
@@ -32,16 +36,19 @@ public class GameManager : MonoBehaviour
     {
         player = FindObjectOfType<Player>();
         spawner = FindObjectOfType<Spawner>();
-
-        NewGame();
+        gamePlaying = false;
+        //disabled these so that they arent running unless we hit start
+        player.gameObject.SetActive(false);
+        spawner.gameObject.SetActive(false);
     }
 
     private void Update()
     {
+        if(!gamePlaying) return;
         gameSpeed += step * Time.deltaTime;
     }
 
-    private void NewGame()
+    public void NewGame()
     {
         // clear all pre-existing obstacles
         Obstacle[] obstacles = FindObjectsOfType<Obstacle>();
@@ -52,17 +59,32 @@ public class GameManager : MonoBehaviour
 
         // set inital condition & enable elements
         gameSpeed = initalSpeed;
-        enabled = true;
+        gamePlaying = true;
         player.gameObject.SetActive(true);
         spawner.gameObject.SetActive(true);
+        animatorTerra.SetBool("Dead", false);
+
     }
 
     public void GameOver()
     {
         gameSpeed = 0f;
-        enabled = false;
+        gamePlaying = false;
 
         player.gameObject.SetActive(false);
         spawner.gameObject.SetActive(false);
+
+        animatorTerra.SetBool("Dead", true);
     }
+
+    public void setGamePlaying(bool status)
+    {
+        gamePlaying = status;
+    }
+
+    public bool getGamePlaying()
+    {
+        return gamePlaying;
+    }
+
 }

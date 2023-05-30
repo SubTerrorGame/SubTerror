@@ -9,30 +9,31 @@ public class ScoreBehaviour : MonoBehaviour
 
     public int jumpScore, slideScore;
 
-    private bool gamePlaying = false;
-
     private float timeElapsedInSeconds=0.0f;
+
+    GameManager gm;
 
     // Start is called before the first frame update
     void Start()
     {
         initializeVariables();
+        gm = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
         //Debug.Log(gamePlaying);
-        if(!gamePlaying)
+        if(!gm.getGamePlaying())
         {
             return;
         }
 
         timeElapsedInSeconds += Time.deltaTime;
-        if(timeElapsedInSeconds%20 == 0)
+      /*  if(timeElapsedInSeconds%20 == 0)
         {
             gameSpeed += 1;
-        }
+        }*/
     }
 
     public void ObstableJumped(int numerOfObstacles)
@@ -52,12 +53,8 @@ public class ScoreBehaviour : MonoBehaviour
 
     public void startGame()
     {
-        gamePlaying = true;
         initializeVariables();
-    }
-    public void endGame()
-    {
-        gamePlaying = false;
+        gm.NewGame();
     }
 
     public void initializeVariables()
@@ -65,11 +62,7 @@ public class ScoreBehaviour : MonoBehaviour
         gameSpeed = 1;
         numObstaclesJumped = 0;
         numObstaclesSlid = 0;
-    }
-
-    public bool getGamePlaying()
-    {
-        return gamePlaying;
+        timeElapsedInSeconds = 0;
     }
 }
 

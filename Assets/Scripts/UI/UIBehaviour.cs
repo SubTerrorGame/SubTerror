@@ -5,26 +5,32 @@ using UnityEngine.UI;
 
 public class UIBehaviour : MonoBehaviour
 {
-    public GameObject MainMenuUI, SettingsUI, PauseUI;
+    public GameObject MainMenuUI, SettingsUI, PauseUI, GameOverUI;
     public ScoreBehaviour scoreBehaviour;
     public Sprite soundSprite, muteSprite;
     public BackgroundMusicBehaviour bgMusic;
     public Image soundIcon;
 
+    GameManager gm;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        gm = gameObject.GetComponent<GameManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetButtonDown("Cancel") && scoreBehaviour.getGamePlaying())
+        if(Input.GetButtonDown("Cancel") && gm.getGamePlaying())
         {
             onPauseGame();
+        }
+
+        if(!gm.getGamePlaying() && scoreBehaviour.getScore() > 0)
+        {
+            loadGameOverUI();
         }
     }
 
@@ -51,6 +57,7 @@ public class UIBehaviour : MonoBehaviour
     public void settingsMenu()
     {
         SettingsUI.SetActive(true);
+        GameOverUI.SetActive(false);
         PauseUI.SetActive(false);
         MainMenuUI.SetActive(false);
     }
@@ -63,9 +70,9 @@ public class UIBehaviour : MonoBehaviour
 
     public void onClickSettingsBack()
     {
-        if(scoreBehaviour.getGamePlaying())
+        if(gm.getGamePlaying())
         {
-            //if gmae is playing, then we go back to pause menu
+            //if game is playing, then we go back to pause menu
             onPauseGame();
         }
         else
@@ -93,5 +100,24 @@ public class UIBehaviour : MonoBehaviour
             bgMusic.bgMute();
         }
     }
+
+    public void onRestartGame()
+    {
+        GameOverUI.SetActive(false);
+        scoreBehaviour.startGame();
+        Time.timeScale = 1.0f;
+        gm.NewGame();
+    }
     
+    public void loadGameOverUI()
+    {
+        //just to be safe
+        PauseUI.SetActive(false);
+        SettingsUI.SetActive(false);
+        MainMenuUI.SetActive(false);
+        //now to handle gameOver aspects in ternms of UI
+        GameOverUI.SetActive(true);
+        Time.timeScale = 0.0f;
+
+    }
 }
