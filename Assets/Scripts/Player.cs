@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
 
     public float jumpForce = 8f;
     public float gravity = 9.81f * 2f;
-    //public float slideTime = 1f;
+    //public float slideTime = 1f; //deprecated since we now use hold to slide
 
     private bool isSliding = false;
 
@@ -35,7 +35,7 @@ public class Player : MonoBehaviour
         //no longer sliding
         if(Input.GetKeyUp(KeyCode.DownArrow) || Input.GetKeyUp(KeyCode.S)) 
         {
-           isSliding = true;
+           isSliding = false;
         }
     }
 
