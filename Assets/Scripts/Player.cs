@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
 
     public float jumpForce = 8f;
     public float gravity = 9.81f * 2f;
-    public float slideTime = 1f;
+    //public float slideTime = 1f;
 
     private bool isSliding = false;
 
@@ -28,9 +28,14 @@ public class Player : MonoBehaviour
     private void Update()
     {
         //Slide
-        if(Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S)) 
+        if(Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) 
         {
-           StartCoroutine(slide(slideTime));
+           isSliding = true;
+        }
+        //no longer sliding
+        if(Input.GetKeyUp(KeyCode.DownArrow) || Input.GetKeyUp(KeyCode.S)) 
+        {
+           isSliding = true;
         }
     }
 
@@ -43,12 +48,12 @@ public class Player : MonoBehaviour
             FindObjectOfType<GameManager>().GameOver();
         }
     }
-
+    /* //deprecated since we now use hold to slide
     private IEnumerator slide(float slideTime)
     {
         isSliding = true;
         yield return new WaitForSeconds(slideTime);
         isSliding = false;
-    }
+    }*/
 
 }

@@ -28,7 +28,7 @@ public class ScoreBehaviour : MonoBehaviour
         {
             return;
         }
-
+        gameSpeed = gm.getGameSpeed();
         timeElapsedInSeconds += Time.deltaTime;
       /*  if(timeElapsedInSeconds%20 == 0)
         {
@@ -56,6 +56,8 @@ public class ScoreBehaviour : MonoBehaviour
         initializeVariables();
         gm.NewGame();
     }
+
+ 
 
     public void initializeVariables()
     {

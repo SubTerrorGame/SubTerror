@@ -39,6 +39,7 @@ public class UIBehaviour : MonoBehaviour
         Time.timeScale = 1.0f;
         scoreBehaviour.startGame();
         MainMenuUI.SetActive(false);
+        gm.disableIntro();
     }
 
     public void onReplayGame()
@@ -103,6 +104,7 @@ public class UIBehaviour : MonoBehaviour
 
     public void onRestartGame()
     {
+        gm.disableIntro();
         GameOverUI.SetActive(false);
         scoreBehaviour.startGame();
         Time.timeScale = 1.0f;
@@ -117,7 +119,10 @@ public class UIBehaviour : MonoBehaviour
         MainMenuUI.SetActive(false);
         //now to handle gameOver aspects in ternms of UI
         GameOverUI.SetActive(true);
-        Time.timeScale = 0.0f;
+        //gameplayAspects
+        gm.enableIntro();
+        gm.clearObstacles();
+        //Time.timeScale = 0.0f;
 
     }
 }

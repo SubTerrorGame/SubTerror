@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     public Animator animatorTerra;
     private bool gamePlaying;
 
+    public GameObject introScreen;
+
     private void Awake()
     {
         if(instance == null)
@@ -47,8 +49,7 @@ public class GameManager : MonoBehaviour
         if(!gamePlaying) return;
         gameSpeed += step * Time.deltaTime;
     }
-
-    public void NewGame()
+    public void clearObstacles()
     {
         // clear all pre-existing obstacles
         Obstacle[] obstacles = FindObjectsOfType<Obstacle>();
@@ -57,6 +58,11 @@ public class GameManager : MonoBehaviour
             Destroy(obstacle.gameObject);
         }
 
+    }
+
+    public void NewGame()
+    {
+        clearObstacles();
         // set inital condition & enable elements
         gameSpeed = initalSpeed;
         gamePlaying = true;
@@ -87,4 +93,18 @@ public class GameManager : MonoBehaviour
         return gamePlaying;
     }
 
+    public void disableIntro()
+    {
+        //disable the intro screen
+        introScreen.SetActive(false);
+    }
+    public void enableIntro()
+    {
+        //disable the intro screen
+        introScreen.SetActive(true);
+    }
+    public int getGameSpeed()
+    {
+        return (int)Mathf.Ceil(gameSpeed);
+    }
 }

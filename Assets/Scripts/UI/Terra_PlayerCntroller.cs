@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Terra_PlayerCntroller : MonoBehaviour
 {
-    public float jumpTime, jumpHeight, slideTime;
+    public float jumpTime, jumpHeight; //SlideTime deprecated since we now use hold to slide
     private float jumpTimeInRad, jumpTimeElapsed;
     //BoxCollider terraCollider;
     //Box Collider size in different for different sprints. All are (0,0) offset
@@ -44,8 +44,16 @@ public class Terra_PlayerCntroller : MonoBehaviour
                 Vector3 newLocation =  new Vector3(defaultPosition.x, defaultPosition.y + jumpingHeight, defaultPosition.z);
                 transform.localPosition = newLocation;
             }
+            //no longer sliding
+           if(Input.GetKeyUp(KeyCode.DownArrow) || Input.GetKeyUp(KeyCode.S)) 
+            {
+                Debug.Log("Its up");
+                isInAction = false;
+                animator.SetBool("Slide", false);
+            }
             return;
         }
+        //Inputs
         //Jump
         if(Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) )
         {
@@ -53,10 +61,12 @@ public class Terra_PlayerCntroller : MonoBehaviour
             StartCoroutine(terraJump(jumpTime));
         }
         //Slide
-        if(Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S) )
+        if(Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) 
         {
-            StartCoroutine(terraSlide(slideTime));
+            isInAction = true;
+            animator.SetBool("Slide", true);
         }
+        
     }
 
     private IEnumerator terraJump(float jumpTime)
@@ -75,6 +85,7 @@ public class Terra_PlayerCntroller : MonoBehaviour
         animator.SetBool("Jump", false);
 
     }
+    /* //deprecated since we now use hold to slide
     private IEnumerator terraSlide(float slideTime)
     {
         isInAction = true;
@@ -86,7 +97,7 @@ public class Terra_PlayerCntroller : MonoBehaviour
         isInAction = false;
       //  terraCollider.size = colliderRunSize;
         animator.SetBool("Slide", false);
-    }
+    }*/
 
     
     private void OnTriggerEnter(Collider other)
