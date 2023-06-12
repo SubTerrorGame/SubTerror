@@ -18,6 +18,7 @@ public class UIBehaviour : MonoBehaviour
     void Start()
     {
         gm = gameObject.GetComponent<GameManager>();
+        bgMusic.playMainMenuTheme();
     }
 
     // Update is called once per frame
@@ -40,11 +41,16 @@ public class UIBehaviour : MonoBehaviour
         scoreBehaviour.startGame();
         MainMenuUI.SetActive(false);
         gm.disableIntro();
+        bgMusic.playGameplayTheme();
+
     }
 
-    public void onReplayGame()
+    //this is redundant. Use onRestartGame
+    public void onReplayGame()  
     {
         Time.timeScale = 1.0f;
+        bgMusic.playGameplayTheme();
+
     }
     public void onExitGme()
     {
@@ -109,10 +115,19 @@ public class UIBehaviour : MonoBehaviour
         scoreBehaviour.startGame();
         Time.timeScale = 1.0f;
         gm.NewGame();
+        bgMusic.playGameplayTheme();
+
     }
     
     public void loadGameOverUI()
     {
+        //if its already active we dont need these code again
+        //since this function is called fromUpdate, it will be called mukltiple times
+        if(GameOverUI.activeSelf)
+        {
+            return;
+        }
+        //Now for the steps to to get the gameOver state going
         //just to be safe
         PauseUI.SetActive(false);
         SettingsUI.SetActive(false);
@@ -123,6 +138,7 @@ public class UIBehaviour : MonoBehaviour
         gm.enableIntro();
         gm.clearObstacles();
         //Time.timeScale = 0.0f;
+        bgMusic.playMainMenuTheme();
 
     }
 }

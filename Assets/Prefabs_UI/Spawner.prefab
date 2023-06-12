@@ -47,6 +47,10 @@ MonoBehaviour:
   objects:
   - prefab: {fileID: 8387793935118685947, guid: f94986eb6c40ec344a476d2e9b47314d, type: 3}
     spawnchance: 0.428
+  - prefab: {fileID: 6664639791786616260, guid: 4683f5232a1d01d449d145d412117fa0, type: 3}
+    spawnchance: 0.426
+  - prefab: {fileID: 7422345703887147737, guid: f12f5a7d37b61b849a95baf82d927849, type: 3}
+    spawnchance: 0.241
   - prefab: {fileID: 1347434434761591022, guid: a313a0fd821d9e14ebccf9f2df2578e5, type: 3}
     spawnchance: 0.309
   minSpawnRate: 1

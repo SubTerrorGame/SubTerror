@@ -6,6 +6,8 @@ public class BackgroundMusicBehaviour : MonoBehaviour
 {
     private AudioSource audioSource; 
 
+    public AudioClip menuTheme, gameplayTheme;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,5 +32,16 @@ public class BackgroundMusicBehaviour : MonoBehaviour
     {
         return audioSource.mute;
     }
-  
+    
+    public void  playMainMenuTheme()
+    {
+        audioSource.clip = menuTheme;
+        audioSource.Play();
+    }
+    public void playGameplayTheme()
+    {
+        audioSource.clip = gameplayTheme;
+        audioSource.Play();
+
+    }
 }

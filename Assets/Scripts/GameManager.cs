@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
         //disabled these so that they arent running unless we hit start
         player.gameObject.SetActive(false);
         spawner.gameObject.SetActive(false);
+        enableIntro();
     }
 
     private void Update()

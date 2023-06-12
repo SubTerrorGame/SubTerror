@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class Terra_PlayerCntroller : MonoBehaviour
 {
-    public float jumpTime, jumpHeight; //SlideTime deprecated since we now use hold to slide
-    private float jumpTimeInRad, jumpTimeElapsed;
+    public float jumpTime, jumpHeightMax, jumpHeightMin; //SlideTime deprecated since we now use hold to slide
+    private float jumpTimeInRad, jumpTimeElapsed, thisJumpHeight;
+
+    private bool jumpStarted;
+
     //BoxCollider terraCollider;
     //Box Collider size in different for different sprints. All are (0,0) offset
    // private Vector2 colliderRunSize, colliderSlideSize, colliderJumpSize;
@@ -18,6 +21,7 @@ public class Terra_PlayerCntroller : MonoBehaviour
     void Start()
     {
         animator = gameObject.GetComponent<Animator>();
+        jumpStarted = false;
         //Box Collider size in different for different sprints. All are (0,0) offset
        // colliderRunSize = new Vector3(0.68f, 1.040f, 0.2f); 
        // colliderSlideSize = new Vector3(1.16f, 0.68f, 0.2f);
@@ -39,7 +43,7 @@ public class Terra_PlayerCntroller : MonoBehaviour
                 //some math with sin to get the jumping arc
                 float normalizedJumpTimeToPI = (jumpTimeElapsed) * jumpTimeInRad;
                 jumpTimeElapsed += Time.deltaTime;
-                float jumpingHeight = jumpHeight * Mathf.Sin(normalizedJumpTimeToPI);
+                float jumpingHeight = thisJumpHeight * Mathf.Sin(normalizedJumpTimeToPI);
                 //apply to position
                 Vector3 newLocation =  new Vector3(defaultPosition.x, defaultPosition.y + jumpingHeight, defaultPosition.z);
                 transform.localPosition = newLocation;
@@ -47,7 +51,6 @@ public class Terra_PlayerCntroller : MonoBehaviour
             //no longer sliding
            if(Input.GetKeyUp(KeyCode.DownArrow) || Input.GetKeyUp(KeyCode.S)) 
             {
-                Debug.Log("Its up");
                 isInAction = false;
                 animator.SetBool("Slide", false);
             }
@@ -55,11 +58,25 @@ public class Terra_PlayerCntroller : MonoBehaviour
         }
         //Inputs
         //Jump
-        if(Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) )
+        if((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) ) && !jumpStarted)
+        {
+            jumpStarted = true;
+            return;
+        }
+        if(jumpStarted)
         {
             jumpTimeElapsed = 0; //reset Jumptime elapsed from past jump
+            if(Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W) )
+            {
+                thisJumpHeight = jumpHeightMax;
+            }
+            else
+            {
+                thisJumpHeight = jumpHeightMin;
+            }
             StartCoroutine(terraJump(jumpTime));
         }
+        
         //Slide
         if(Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) 
         {
@@ -81,6 +98,7 @@ public class Terra_PlayerCntroller : MonoBehaviour
 
         isInAction = false;
         jumping = false;
+        jumpStarted = false;
       //  terraCollider.size = colliderRunSize;
         animator.SetBool("Jump", false);
 
@@ -109,4 +127,8 @@ public class Terra_PlayerCntroller : MonoBehaviour
         }
     }
 
+    public bool isTerraJumping()
+    {
+        return jumping;
+    }
 }

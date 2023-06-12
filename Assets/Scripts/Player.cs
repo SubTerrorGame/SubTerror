@@ -8,6 +8,9 @@ public class Player : MonoBehaviour
     private CharacterController character;
     private Vector3 direction;
 
+    public Terra_PlayerCntroller Terra;
+
+    //Also deprecated since we ae using the Terra_PlayerController as the input and controls
     public float jumpForce = 8f;
     public float gravity = 9.81f * 2f;
     //public float slideTime = 1f; //deprecated since we now use hold to slide
@@ -27,6 +30,10 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if(Terra.isTerraJumping())
+        {
+            return;
+        }
         //Slide
         if(Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) 
         {
